@@ -9,6 +9,9 @@ python -m amazon_mcp &
 # Give it a second to start
 sleep 2
 
+# Allow the Render URL to access the inspector to prevent DNS rebinding errors
+export ALLOWED_ORIGINS="${RENDER_EXTERNAL_URL}"
+
 # Start the MCP Inspector in the foreground (without ad-hoc command)
 # This removes the "read-only" banner and lets you add servers manually.
 npx -y @modelcontextprotocol/inspector

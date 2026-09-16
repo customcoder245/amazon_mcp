@@ -21,3 +21,4 @@ docs/internal/
 _internal_ops/
 .vercel
 .env*
+node_modules
