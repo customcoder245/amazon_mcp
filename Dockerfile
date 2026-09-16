@@ -20,5 +20,8 @@ ENV PYTHONUNBUFFERED=1 \
 ENV HOST=0.0.0.0
 ENV DANGEROUSLY_BIND_ALL_INTERFACES=true
 
-# Start the MCP inspector, and have it launch the python MCP server
-CMD ["npx", "-y", "@modelcontextprotocol/inspector", "python", "-m", "amazon_mcp"]
+COPY start.sh .
+RUN chmod +x start.sh
+
+# Start the python server in the background, and the Inspector in the foreground
+CMD ["./start.sh"]
