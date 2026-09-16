@@ -18,6 +18,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Tell Vite (used by the inspector) to bind to 0.0.0.0 so Render can route traffic to it
 ENV HOST=0.0.0.0
+ENV DANGEROUSLY_BIND_ALL_INTERFACES=true
 
 # Start the MCP inspector, and have it launch the python MCP server
 CMD ["npx", "-y", "@modelcontextprotocol/inspector", "python", "-m", "amazon_mcp"]
