@@ -564,7 +564,7 @@ def main() -> None:
     )
     transport = os.environ.get("AMAZON_MCP_TRANSPORT", "stdio").strip().lower()
     if transport in ("streamable-http", "streamable_http"):
-        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "0.0.0.0"))
+        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
         os.environ.setdefault("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780"))
         mcp.run(transport="streamable-http")
     elif transport == "sse":
