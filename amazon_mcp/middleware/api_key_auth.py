@@ -96,6 +96,7 @@ def _unauthorized(hint: str) -> JSONResponse:
     return JSONResponse(
         {"ok": False, "error": "Unauthorized", "hint": hint},
         status_code=401,
+        headers={"WWW-Authenticate": 'Bearer realm="amazon-mcp"'},
     )
 
 

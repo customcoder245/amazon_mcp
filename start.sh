@@ -62,6 +62,14 @@ http {
             proxy_pass http://127.0.0.1:${MCP_PORT}/health;
         }
 
+        # ── Block OAuth discovery — server uses Bearer auth, not OAuth ─────────
+        # Without this, a 401 from /mcp triggers OAuth discovery which returns
+        # the Inspector HTML (200) instead of a proper 404, confusing the client.
+        location /.well-known/ {
+            return 404 '{"ok":false,"error":"OAuth not supported. Use Bearer token."}';
+            add_header Content-Type application/json;
+        }
+
         # ── Inspector UI (Vite proxies /api/* to Inspector proxy internally) ──
         location / {
             proxy_pass         http://127.0.0.1:${INSPECTOR_UI_PORT};
