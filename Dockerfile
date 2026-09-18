@@ -2,9 +2,9 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install curl, Node.js, and npm so we can run the MCP inspector
+# Install curl for health checks
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl nodejs npm \
+    && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -14,14 +14,12 @@ COPY amazon_mcp/ amazon_mcp/
 COPY scripts/verify_install.sh scripts/verify_install.sh
 
 ENV PYTHONUNBUFFERED=1 \
-    AMAZON_MCP_DRY_RUN=1
-
-# Tell Vite (used by the inspector) to bind to 0.0.0.0 so Render can route traffic to it
-ENV HOST=0.0.0.0
-ENV DANGEROUSLY_BIND_ALL_INTERFACES=true
+    AMAZON_MCP_DRY_RUN=1 \
+    AMAZON_MCP_TRANSPORT=streamable-http \
+    AMAZON_MCP_HOST=0.0.0.0
 
 COPY start.sh .
 RUN chmod +x start.sh
 
-# Start the python server in the background, and the Inspector in the foreground
+# Render dynamically assigns $PORT; start.sh reads it at runtime
 CMD ["./start.sh"]

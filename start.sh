@@ -1,17 +1,9 @@
 #!/bin/bash
 
-# Start the Python MCP Server in HTTP mode in the background
+# Render injects $PORT; fall back to 8780 for local dev
 export AMAZON_MCP_TRANSPORT=streamable-http
-export AMAZON_MCP_HOST=127.0.0.1
-export AMAZON_MCP_PORT=8780
-python -m amazon_mcp &
+export AMAZON_MCP_HOST=0.0.0.0
+export AMAZON_MCP_PORT="${PORT:-8780}"
 
-# Give it a second to start
-sleep 2
-
-# Allow the Render URL to access the inspector to prevent DNS rebinding errors
-export ALLOWED_ORIGINS="${RENDER_EXTERNAL_URL}"
-
-# Start the MCP Inspector in the foreground (without ad-hoc command)
-# This removes the "read-only" banner and lets you add servers manually.
-npx -y @modelcontextprotocol/inspector
+# Start the MCP server in the foreground so Render keeps the process alive
+exec python -m amazon_mcp
