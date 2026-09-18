@@ -10,8 +10,11 @@ RUN apt-get update \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-cache MCP Inspector so startup is fast (no npx download delay)
-RUN npm install -g @modelcontextprotocol/inspector
+# Pre-cache MCP Inspector + default stdio server packages so built-in servers work
+RUN npm install -g \
+    @modelcontextprotocol/inspector \
+    @modelcontextprotocol/server-filesystem \
+    @modelcontextprotocol/server-everything
 
 COPY amazon_mcp/ amazon_mcp/
 COPY scripts/verify_install.sh scripts/verify_install.sh
