@@ -13,7 +13,8 @@ logger = logging.getLogger("amazon_mcp.server")
 
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
-from starlette.requests import Request    
+from starlette.requests import Request   
+from mcp.server.transport_security import TransportSecuritySettings 
 from starlette.responses import FileResponse, Response
 
 from amazon_mcp.auth.lwa import LWAAuth
@@ -130,7 +131,8 @@ async def _lifespan(app):
 
 _mcp_host = os.environ.get("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
 _mcp_port = int(os.environ.get("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780")))
-mcp = FastMCP("amazon-sp", lifespan=_lifespan, host=_mcp_host, port=_mcp_port)
+mcp = FastMCP("amazon-sp",lifespan=_lifespan,host=_mcp_host,port=_mcp_port,transport_security=TransportSecuritySettings(allowed_hosts=["amazon-mcp-new.onrender.com","localhost",  "127.0.0.1" ] )
+)
 install_mcp_api_key_middleware(mcp)
 install_ip_allowlist_middleware(mcp)
 
@@ -564,7 +566,7 @@ def main() -> None:
     )
     transport = os.environ.get("AMAZON_MCP_TRANSPORT", "stdio").strip().lower()
     if transport in ("streamable-http", "streamable_http"):
-        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
+        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "0.0.0.0"))
         os.environ.setdefault("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780"))
         mcp.run(transport="streamable-http")
     elif transport == "sse":
