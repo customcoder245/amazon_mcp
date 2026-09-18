@@ -128,8 +128,8 @@ async def _lifespan(app):
             _daily_briefing_scheduler = None
         logger.info("Amazon MCP shutdown complete")
 
-_mcp_host = os.environ.get("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "0.0.0.0"))
-_mcp_port = int(os.environ.get("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", os.environ.get("PORT", "8780"))))
+_mcp_host = os.environ.get("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
+_mcp_port = int(os.environ.get("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780")))
 mcp = FastMCP("amazon-sp", lifespan=_lifespan, host=_mcp_host, port=_mcp_port)
 install_mcp_api_key_middleware(mcp)
 install_ip_allowlist_middleware(mcp)
@@ -564,12 +564,12 @@ def main() -> None:
     )
     transport = os.environ.get("AMAZON_MCP_TRANSPORT", "stdio").strip().lower()
     if transport in ("streamable-http", "streamable_http"):
-        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "0.0.0.0"))
-        os.environ.setdefault("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", os.environ.get("PORT", "8780")))
+        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
+        os.environ.setdefault("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780"))
         mcp.run(transport="streamable-http")
     elif transport == "sse":
-        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "0.0.0.0"))
-        os.environ.setdefault("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", os.environ.get("PORT", "8780")))
+        os.environ.setdefault("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
+        os.environ.setdefault("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780"))
         mcp.run(transport="sse")
     else:
         mcp.run(transport="stdio")

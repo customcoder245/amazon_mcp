@@ -2,24 +2,25 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install curl for health checks
+# Install curl, nginx (reverse proxy), Node.js + npm (MCP Inspector)
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl \
+    && apt-get install -y --no-install-recommends curl nginx nodejs npm \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pre-cache MCP Inspector so startup is fast (no npx download delay)
+RUN npm install -g @modelcontextprotocol/inspector
+
 COPY amazon_mcp/ amazon_mcp/
 COPY scripts/verify_install.sh scripts/verify_install.sh
 
 ENV PYTHONUNBUFFERED=1 \
-    AMAZON_MCP_DRY_RUN=1 \
-    AMAZON_MCP_TRANSPORT=streamable-http \
-    AMAZON_MCP_HOST=0.0.0.0
+    AMAZON_MCP_DRY_RUN=1
 
 COPY start.sh .
 RUN chmod +x start.sh
 
-# Render dynamically assigns $PORT; start.sh reads it at runtime
+# Render injects $PORT at runtime; nginx binds to it via start.sh
 CMD ["./start.sh"]
