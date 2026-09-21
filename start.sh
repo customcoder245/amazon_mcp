@@ -19,7 +19,7 @@ sleep 3
 echo "==> [2/4] Starting MCP Inspector (UI:${INSPECTOR_UI_PORT}, proxy:${INSPECTOR_PROXY_PORT})..."
 CLIENT_PORT=${INSPECTOR_UI_PORT} \
 SERVER_PORT=${INSPECTOR_PROXY_PORT} \
-ALLOWED_ORIGINS="${ALLOWED_ORIGINS:-*}" \
+ALLOWED_ORIGINS="${RENDER_EXTERNAL_URL:-*}" \
 npx -y @modelcontextprotocol/inspector &
 
 sleep 6
