@@ -140,7 +140,8 @@ mcp = FastMCP(
     transport_security=TransportSecuritySettings(
         enable_dns_rebinding_protection=True,
         allowed_hosts=[
-            "amazon-mcp.fly.dev",
+            "omre-asc-mcp.fly.dev",
+            "omre-asc-mcp.fly.dev:*",
         ],
         allowed_origins=[
             "https://omre-asc-mcp.fly.dev",
