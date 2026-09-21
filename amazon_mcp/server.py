@@ -11,7 +11,6 @@ from typing import Any
 
 logger = logging.getLogger("amazon_mcp.server")
 
-
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from starlette.requests import Request   
@@ -33,7 +32,6 @@ from amazon_mcp.tools.domain_tools import register_domain_tools, EXPORTS as _DOM
 from amazon_mcp.cogs.store import CogsStore, get_default_cogs_db_path
 from amazon_mcp.dag.executor import DagExecutor
 from amazon_mcp.dag.fast_forward import FastForward
-from fastapi import FastAPI
 
 load_dotenv()         
 
