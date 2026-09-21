@@ -49,56 +49,6 @@ _daily_briefing_scheduler: Any | None = None
 _slack_interaction_handler: Any | None = None
 _last_ctx_hit_box: dict[str, bool] = {"value": False}
 
-app = FastAPI()
-
-from fastapi.responses import JSONResponse
-
-BASE_URL = "https://omre-asc-mcp.fly.dev"
-
-
-@app.get("/.well-known/oauth-authorization-server")
-async def oauth_metadata():
-    return JSONResponse({
-        "issuer": BASE_URL,
-        "authorization_endpoint": f"{BASE_URL}/authorize",
-        "token_endpoint": f"{BASE_URL}/token",
-        "response_types_supported": ["code"],
-        "grant_types_supported": [
-            "authorization_code",
-            "refresh_token"
-        ],
-        "code_challenge_methods_supported": ["S256"]
-    })
-
-
-from fastapi.responses import RedirectResponse
-from urllib.parse import urlencode
-
-
-@app.get("/authorize")
-async def authorize():
-    params = {
-        "application_id": "YOUR_AMAZON_APP_ID",
-        "state": "random_state_value"
-    }
-
-    url = (
-        "https://sellercentral.amazon.com/apps/authorize/consent?"
-        + urlencode(params)
-    )
-
-    return RedirectResponse(url)
-
-
-@app.post("/token")
-async def token():
-    # receive code
-    # call https://api.amazon.com/auth/o2/token
-    # return access_token and refresh_token
-    pass
-
-
-
 
 def _get_store(tenant_id: str = "default") -> AlertStore:
     """Return tenant-scoped AlertStore (default uses env/seller routing)."""
