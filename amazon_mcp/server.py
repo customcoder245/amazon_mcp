@@ -149,8 +149,8 @@ mcp = FastMCP(
 )
 
 
-install_mcp_api_key_middleware(mcp)
-install_ip_allowlist_middleware(mcp)
+# install_mcp_api_key_middleware(mcp)
+# install_ip_allowlist_middleware(mcp)
 
 
 @mcp.custom_route("/health", methods=["GET"])
