@@ -1,12 +1,12 @@
-# fly.toml app configuration file generated for omre-asc-mcp on 2026-09-18T13:30:43Z
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
 app = 'omre-asc-mcp'
 primary_region = 'lhr'
 
 [build]
+
+[env]
+  AMAZON_MCP_HOST = "0.0.0.0"
+  AMAZON_MCP_PORT = "8080"
+  AMAZON_MCP_TRANSPORT = "streamable-http"
 
 [http_service]
   internal_port = 8080
@@ -20,4 +20,3 @@ primary_region = 'lhr'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-
