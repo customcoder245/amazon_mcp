@@ -131,7 +131,7 @@ async def _lifespan(app):
 
 _mcp_host = os.environ.get("FASTMCP_HOST", os.environ.get("AMAZON_MCP_HOST", "127.0.0.1"))
 _mcp_port = int(os.environ.get("FASTMCP_PORT", os.environ.get("AMAZON_MCP_PORT", "8780")))
-mcp = FastMCP("amazon-sp",lifespan=_lifespan,host=_mcp_host,port=_mcp_port,transport_security=TransportSecuritySettings(allowed_hosts=["amazon-mcp-new.onrender.com","localhost",  "127.0.0.1" ] )
+mcp = FastMCP("amazon-sp",lifespan=_lifespan,host=_mcp_host,port=_mcp_port,transport_security=TransportSecuritySettings(allowed_hosts=["amazon-mcp-new.onrender.com","localhost",  "127.0.0.1" ,"omre-asc-mcp.fly.dev"] )
 )
 install_mcp_api_key_middleware(mcp)
 install_ip_allowlist_middleware(mcp)
